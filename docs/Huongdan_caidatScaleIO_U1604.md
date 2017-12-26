@@ -26,11 +26,11 @@ Volume tạo ra trên ScaleIO dung lượng nhỏ nhất là 8GB, ko thay đổi
 ## 1. Cài đặt ScaleIO
 
 ### Download bộ cài
-	- Download bộ cài ở link sau và giải nén: 
+  - Download bộ cài ở link sau và giải nén: 
 	https://downloads.emc.com/emc-com/usa/ScaleIO/ScaleIO_2.0.1.4_Complete_Linux_SW_Download.zip
 	Kết quả:
 
-	![img](../images/25.jpg)
+![img](../images/25.jpg)
 
 
 ### Thực hiện trên tất cả các host
@@ -61,21 +61,21 @@ Volume tạo ra trên ScaleIO dung lượng nhỏ nhất là 8GB, ko thay đổi
 	https://172.16.68.80
 	Kết quả:
 
-	![img](../images/1.jpg)
+![img](../images/1.jpg)
 
 	- Login vào bằng tk admin, password tạo ở trên, tiếp tục chọn "Get Started"
 
-	![img](../images/2.jpg)
+![img](../images/2.jpg)
 
 	- Lựa chọn "Browser", chọn tất cả các file trong thư mục "ScaleIO_2.0.1.4_UBUNTU_16.04_Download" và tiến hành Upload
-	![img](../images/3.jpg)
+![img](../images/3.jpg)
 
-	![img](../images/4.jpg)
+![img](../images/4.jpg)
 
-	![img](../images/5.jpg)
+![img](../images/5.jpg)
 
 	Kết quả:
-	![img](../images/6.jpg)
+![img](../images/6.jpg)
 
 	- Ở bước Install, chọn cài đặt mô hình 3 node
 	![img](../images/7.jpg)
