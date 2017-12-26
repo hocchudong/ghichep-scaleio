@@ -1,10 +1,11 @@
 ## Hướng dẫn cài đặt ScaleIO và tích hợp với OpenStack
 
 ### Mục tiêu LAB
-- Mô hình này sử dụng 3 server, trong đó:
+- Mô hình này sử dụng 4 server, trong đó:
   - Host ScaleIO1 cài đặt Gateway, MDM, SDS
   - Host ScaleIO2 cài đặt MDM, SDS
   - Host ScaleIO3 cài đặt TieBreaker, SDS
+  - Host Windows để cài đặt, quản trị trên giao diện
 - LAB này chỉ phù hợp với việc nghiên cứu các tính năng và demo thử nghiệm, không áp dụng được trong thực tế.
 
 ## Mô hình 
@@ -17,11 +18,10 @@
 
 ## Chuẩn bị và môi trường LAB
   - Ubuntu Server 16.04 - 64 bit
+  - Windows 7 trở lên.
   - Ram 3GB trở lên
   - Ổ cứng từ 90GB trở lên
   - Hệ thống OpenStack Newton được cài đặt sẵn theo hướng dẫn ở [đây](https://github.com/congto/OpenStack-Newton-Scripts)
-
-Volume tạo ra trên ScaleIO dung lượng nhỏ nhất là 8GB, ko thay đổi được
 	
 ## 1. Cài đặt ScaleIO
 
@@ -31,7 +31,6 @@ Volume tạo ra trên ScaleIO dung lượng nhỏ nhất là 8GB, ko thay đổi
 	Kết quả:
 
 ![img](../images/25.jpg)
-
 
 ### Thực hiện trên tất cả các host
   - Enable root login qua ssh
@@ -94,109 +93,163 @@ Volume tạo ra trên ScaleIO dung lượng nhỏ nhất là 8GB, ko thay đổi
 ![img](../images/12.jpg)
 
 ### Để quản trị ScaleIO cluster, ScaleIO cung cấp công cụ là ScaleIO GUI, hỗ trợ Windows. Máy Windows này cần kết nối được tới IP quản trị của ScaleIO (172.16.68.80)
+
   - Cài đặt Java Runtime 1.8
+
 ![img](../images/13.jpg)
 
   - Cài đặt GUI package
+
 ![img](../images/14.jpg)
 
   - Sau khi cài đặt xong, chạy ứng dụng và khai báo IP quản trị của ScaleIO cluster
+
 ![img](../images/15.jpg)
 
 ![img](../images/16.jpg)
 
   Giao diện trạng thái của Cluster
+
 ![img](../images/17.jpg)
 
-# Cấu hình OpenStack
-Trên controller và compute
-Cài đặt ScaleIO SDC
+  - Vào tab Backend, trong đây đã hiển thị các host ScaleIO trong Cluster
 
-apt-get install numactl libaio1 -y
-tar -xvf EMC-ScaleIO-sdc-2.0-14000.231.Ubuntu.16.04.x86_64.tar
-./siob_extract EMC-ScaleIO-sdc-2.0-14000.231.Ubuntu.16.04.x86_64.siob
-MDM_IP=172.16.68.80,172.16.68.81 dpkg -i EMC-ScaleIO-sdc-2.0-14000.231.Ubuntu.16.04.x86_64.deb
+![img](../images/18.jpg)
 
-Nếu gặp lỗi 
-Job for scini.service failed because the control process exited with error code. See "systemctl status scini.service" and "journalctl -xe" for details.
-Job for scini.service failed because the control process exited with error code. See "systemctl status scini.service" and "journalctl -xe" for details.
-Error loading driver, the changes will take place on next reboot
+  - Chuột phải vào một host, chọn "Add device"
 
-Kiểm tra service scini
-root@compute1:~# systemctl status scini.service
-● scini.service - LSB: This script is responsible to control the scini service.
-   Loaded: loaded (/etc/init.d/scini; bad; vendor preset: enabled)
-   Active: failed (Result: exit-code) since Mon 2017-12-25 18:20:32 UTC; 17s ago
-     Docs: man:systemd-sysv-generator(8)
+![img](../images/19.jpg)
 
-Dec 25 18:20:32 compute1 scini[3045]: Error: Unable to fetch scini.ko. Will try to load the existing module...
-Dec 25 18:20:32 compute1 scini[3045]: insmod: ERROR: could not insert module /bin/emc/scaleio/scini.ko: Invalid module format
-Dec 25 18:20:32 compute1 scini[3045]: Error (1) loading module binary /bin/emc/scaleio/scini.ko
-Dec 25 18:20:32 compute1 scini[3045]: rmmod: ERROR: Module scini is not currently loaded
-Dec 25 18:20:32 compute1 scini[3045]: Error (1) unloading module binary /bin/emc/scaleio/scini.ko
-Dec 25 18:20:32 compute1 scini[3045]:  *
-Dec 25 18:20:32 compute1 systemd[1]: scini.service: Control process exited, code=exited status=1
-Dec 25 18:20:32 compute1 systemd[1]: Failed to start LSB: This script is responsible to control the scini service..
-Dec 25 18:20:32 compute1 systemd[1]: scini.service: Unit entered failed state.
-Dec 25 18:20:32 compute1 systemd[1]: scini.service: Failed with result 'exit-code'.
+  - Khai báo label của ổ đĩa trong host, có thể xem bằng lệnh `lsblk` trên host
+
+![img](../images/20.jpg)
+
+  - Thực hiện lần lượt trên từng host, kết quả
+
+![img](../images/21.jpg)
+
+![img](../images/22.jpg)
 
 
-Lên trang ftp://ftp.emc.com để down bản scni phù hợp với linux-image của host compute
-wget ftp://QNzgdxXix:Aw3wFAwAq3@ftp.emc.com/Ubuntu/2.0.14000.231/4.4.0-104-generic/scini.tar
-tar -xvf scini.tar
-./siob_extract scini.siob
-mv /root/scini.ko /bin/emc/scaleio
-chmod 777 /bin/emc/scaleio/scini.ko
-systemctl restart scini.service
-systemctl status scini.service
-● scini.service - LSB: This script is responsible to control the scini service.
-   Loaded: loaded (/etc/init.d/scini; bad; vendor preset: enabled)
-   Active: active (exited) since Mon 2017-12-25 18:27:07 UTC; 8min ago
-     Docs: man:systemd-sysv-generator(8)
-  Process: 4617 ExecStart=/etc/init.d/scini start (code=exited, status=0/SUCCESS)
+## 2. Tích hợp OpenStack và ScaleIO
 
-Dec 25 18:27:01 compute1 scini[4617]: scinia is not ready yet...
-Dec 25 18:27:02 compute1 scini[4617]: scinia is not ready yet...
-Dec 25 18:27:03 compute1 scini[4617]: scinia is not ready yet...
-Dec 25 18:27:04 compute1 scini[4617]: scinia is not ready yet...
-Dec 25 18:27:05 compute1 scini[4617]: scinia is not ready yet...
-Dec 25 18:27:06 compute1 scini[4617]: scinia is not ready yet...
-Dec 25 18:27:07 compute1 scini[4617]: scinia is not ready yet...
-Dec 25 18:27:07 compute1 scini[4617]: Success configuring module
-Dec 25 18:27:07 compute1 scini[4617]:  *
-Dec 25 18:27:07 compute1 systemd[1]: Started LSB: This script is responsible to control the scini service..
+### Trên host OpenStack controller và compute
+  - Cài đặt ScaleIO SDC, sử dụng file "EMC-ScaleIO-sdc-2.0-14000.231.Ubuntu.16.04.x86_64.tar" đã download
+  ```sh
+	tar -xvf EMC-ScaleIO-sdc-2.0-14000.231.Ubuntu.16.04.x86_64.tar
+	./siob_extract EMC-ScaleIO-sdc-2.0-14000.231.Ubuntu.16.04.x86_64.siob
+	```
 
-## Cấu hình cinder-volume
+	- Khởi chạy SDC, khai báo IP của các host MDM
+	```sh
+	MDM_IP=172.16.68.80,172.16.68.81 dpkg -i EMC-ScaleIO-sdc-2.0-14000.231.Ubuntu.16.04.x86_64.deb
+	```
 
-vim /etc/cinder/cinder.conf
-enabled_backends = scaleio
+  Nếu sau khi khởi chạy, gặp lỗi sau
+  ```sh
+	Job for scini.service failed because the control process exited with error code. See "systemctl status scini.service" and "journalctl -xe" for details.
+	Job for scini.service failed because the control process exited with error code. See "systemctl status scini.service" and "journalctl -xe" for details.
+	Error loading driver, the changes will take place on next reboot
+	```
 
-[scaleio]
-volume_driver = cinder.volume.drivers.emc.scaleio.ScaleIODriver
-volume_backend_name = scaleio
-san_ip = 172.16.68.80
-sio_protection_domain_name = default
-sio_storage_pool_name = default
-sio_storage_pools = default:default
-san_login = admin
-san_password = Sube-1988
+  - Kiểm tra service scini
+  ```sh
+	systemctl status scini.service
+	```
 
-cinder type-create scaleio
-cinder type-key scaleio set volume_backend_name=scaleio
+	Kết quả:
+	```sh
+	● scini.service - LSB: This script is responsible to control the scini service.
+	   Loaded: loaded (/etc/init.d/scini; bad; vendor preset: enabled)
+	   Active: failed (Result: exit-code) since Mon 2017-12-25 18:20:32 UTC; 17s ago
+	     Docs: man:systemd-sysv-generator(8)
+	Dec 25 18:20:32 compute1 scini[3045]: Error: Unable to fetch scini.ko. Will try to load the existing module...
+	Dec 25 18:20:32 compute1 scini[3045]: insmod: ERROR: could not insert module /bin/emc/scaleio/scini.ko: Invalid module format
+	Dec 25 18:20:32 compute1 scini[3045]: Error (1) loading module binary /bin/emc/scaleio/scini.ko
+	Dec 25 18:20:32 compute1 scini[3045]: rmmod: ERROR: Module scini is not currently loaded
+	Dec 25 18:20:32 compute1 scini[3045]: Error (1) unloading module binary /bin/emc/scaleio/scini.ko
+	Dec 25 18:20:32 compute1 scini[3045]:  *
+	Dec 25 18:20:32 compute1 systemd[1]: scini.service: Control process exited, code=exited status=1
+	Dec 25 18:20:32 compute1 systemd[1]: Failed to start LSB: This script is responsible to control the scini service..
+	Dec 25 18:20:32 compute1 systemd[1]: scini.service: Unit entered failed state.
+	Dec 25 18:20:32 compute1 systemd[1]: scini.service: Failed with result 'exit-code'.
+	```
 
-## Cấu hình nova-compute
-service nova-compute restart
+  - Lên trang ftp://ftp.emc.com để down bản scini phù hợp với linux-image của host
+  ```sh
+	wget ftp://QNzgdxXix:Aw3wFAwAq3@ftp.emc.com/Ubuntu/2.0.14000.231/4.4.0-104-generic/scini.tar
+	tar -xvf /root/scini.tar
+	./siob_extract /root/scini.siob
+	mv /root/scini.ko /bin/emc/scaleio
+	chmod 777 /bin/emc/scaleio/scini.ko
+  ```
 
+  - Khởi động lại scini service
+	```sh
+	systemctl restart scini.service
+	systemctl status scini.service
+	● scini.service - LSB: This script is responsible to control the scini service.
+	   Loaded: loaded (/etc/init.d/scini; bad; vendor preset: enabled)
+	   Active: active (exited) since Mon 2017-12-25 18:27:07 UTC; 8min ago
+	     Docs: man:systemd-sysv-generator(8)
+	  Process: 4617 ExecStart=/etc/init.d/scini start (code=exited, status=0/SUCCESS)
+	Dec 25 18:27:01 compute1 scini[4617]: scinia is not ready yet...
+	Dec 25 18:27:02 compute1 scini[4617]: scinia is not ready yet...
+	Dec 25 18:27:03 compute1 scini[4617]: scinia is not ready yet...
+	Dec 25 18:27:04 compute1 scini[4617]: scinia is not ready yet...
+	Dec 25 18:27:05 compute1 scini[4617]: scinia is not ready yet...
+	Dec 25 18:27:06 compute1 scini[4617]: scinia is not ready yet...
+	Dec 25 18:27:07 compute1 scini[4617]: scinia is not ready yet...
+	Dec 25 18:27:07 compute1 scini[4617]: Success configuring module
+	Dec 25 18:27:07 compute1 scini[4617]:  *
+	Dec 25 18:27:07 compute1 systemd[1]: Started LSB: This script is responsible to control the scini service..
+	```
 
-Tiến hành tạo và mount volume trên dashboard
+	- Kiểm tra trên EMC GUI
 
+![img](../images/24.jpg)	
 
+### Cấu hình cinder-volume trên host Controller
 
+  - Sửa file /etc/cinder/cinder.conf
+  ```sh
+  [DEFAULT]
+	enabled_backends = scaleio
+	[scaleio]
+	volume_driver = cinder.volume.drivers.emc.scaleio.ScaleIODriver
+	volume_backend_name = scaleio
+	san_ip = 172.16.68.80
+	sio_protection_domain_name = default
+	sio_storage_pool_name = default
+	sio_storage_pools = default:default
+	san_login = admin
+	san_password = Sube-1988
+	```
 
+	- Tạo type scaleio
+	```sh
+	cinder type-create scaleio
+	cinder type-key scaleio set volume_backend_name=scaleio
+	```
 
+### Trên host compute
+  - Khởi động lại dịch vụ nova-compute
+	```sh
+	service nova-compute restart
+	```
 
-http://node.mu/2017/06/30/scaleio-on-ubuntu-xenial/
-https://www.youtube.com/watch?v=NOnzJeRqaVA
-https://www.emc.com/collateral/technical-documentation/scaleio-quick-start-guide-for-linux.pdf
-https://gist.github.com/clintkitson/92da5036b07a026de10d20ccbf500028
-https://docs.openstack.org/newton/config-reference/block-storage/drivers/emc-scaleio-driver.html
+## 3. Tiến hành tạo và mount volume trên horizon.
+
+Lưu ý: Volume tạo ra trên ScaleIO dung lượng nhỏ nhất là 8GB, ko thay đổi được.
+
+Tham khảo:
+
+[1] - http://node.mu/2017/06/30/scaleio-on-ubuntu-xenial/
+
+[2] -https://www.youtube.com/watch?v=NOnzJeRqaVA
+
+[3] -https://www.emc.com/collateral/technical-documentation/scaleio-quick-start-guide-for-linux.pdf
+
+[4] -https://gist.github.com/clintkitson/92da5036b07a026de10d20ccbf500028
+
+[5] -https://docs.openstack.org/newton/config-reference/block-storage/drivers/emc-scaleio-driver.html
