@@ -146,12 +146,11 @@
 	```
 
   Nếu sau khi khởi chạy, gặp lỗi sau
-  
-  ```sh
+
 	Job for scini.service failed because the control process exited with error code. See "systemctl status scini.service" and "journalctl -xe" for details.
 	Job for scini.service failed because the control process exited with error code. See "systemctl status scini.service" and "journalctl -xe" for details.
 	Error loading driver, the changes will take place on next reboot
-	```
+	
 
   - Kiểm tra service scini
 
