@@ -135,12 +135,13 @@
 
 ### Trên host OpenStack controller và compute
   - Cài đặt ScaleIO SDC, sử dụng file "EMC-ScaleIO-sdc-2.0-14000.231.Ubuntu.16.04.x86_64.tar" đã download
+  
   ```sh
 	tar -xvf EMC-ScaleIO-sdc-2.0-14000.231.Ubuntu.16.04.x86_64.tar
 	./siob_extract EMC-ScaleIO-sdc-2.0-14000.231.Ubuntu.16.04.x86_64.siob
 	```
 
-	- Khởi chạy SDC, khai báo IP của các host MDM
+  - Khởi chạy SDC, khai báo IP của các host MDM
 	```sh
 	MDM_IP=172.16.68.80,172.16.68.81 dpkg -i EMC-ScaleIO-sdc-2.0-14000.231.Ubuntu.16.04.x86_64.deb
 	```
