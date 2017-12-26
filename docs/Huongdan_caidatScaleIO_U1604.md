@@ -160,7 +160,6 @@
 
   Kết quả:
 
-	```sh
 	● scini.service - LSB: This script is responsible to control the scini service.
 	   Loaded: loaded (/etc/init.d/scini; bad; vendor preset: enabled)
 	   Active: failed (Result: exit-code) since Mon 2017-12-25 18:20:32 UTC; 17s ago
@@ -175,7 +174,7 @@
 	Dec 25 18:20:32 compute1 systemd[1]: Failed to start LSB: This script is responsible to control the scini service..
 	Dec 25 18:20:32 compute1 systemd[1]: scini.service: Unit entered failed state.
 	Dec 25 18:20:32 compute1 systemd[1]: scini.service: Failed with result 'exit-code'.
-	```
+
 
   - Lên trang ftp://ftp.emc.com để down bản scini phù hợp với linux-image của host
 
@@ -217,7 +216,6 @@
 
   - Sửa file /etc/cinder/cinder.conf
 
-  ```sh
   [DEFAULT]
 	enabled_backends = scaleio
 	[scaleio]
@@ -229,7 +227,7 @@
 	sio_storage_pools = default:default
 	san_login = admin
 	san_password = Sube-1988
-	```
+
 
   - Tạo type scaleio
 
