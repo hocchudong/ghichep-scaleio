@@ -215,7 +215,7 @@
 ### Cấu hình cinder-volume trên host Controller
 
   - Sửa file /etc/cinder/cinder.conf
-
+```sh
   [DEFAULT]
 	enabled_backends = scaleio
 	[scaleio]
@@ -227,10 +227,9 @@
 	sio_storage_pools = default:default
 	san_login = admin
 	san_password = Sube-1988
-
+```
 
   - Tạo type scaleio
-
 	```sh
 	cinder type-create scaleio
 	cinder type-key scaleio set volume_backend_name=scaleio
