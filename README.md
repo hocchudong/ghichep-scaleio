@@ -1,0 +1,1 @@
+ghi chép về ScaleIO
