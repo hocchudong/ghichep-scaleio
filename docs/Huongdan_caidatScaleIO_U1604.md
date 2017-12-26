@@ -81,10 +81,10 @@ Volume tạo ra trên ScaleIO dung lượng nhỏ nhất là 8GB, ko thay đổi
 ![img](../images/7.jpg)
 
   - Khai báo password của MDM, LIA, accept license, khai báo IP các host ScaleIO và password để ssh vào từng host
-	![img](../images/8.jpg)
+![img](../images/8.jpg)
 
 	- Lần lượt thực hiện từng bước cài đặt theo hướng dẫn
-	![img](../images/9.jpg)
+![img](../images/9.jpg)
 
 ![img](../images/10.jpg)
 
