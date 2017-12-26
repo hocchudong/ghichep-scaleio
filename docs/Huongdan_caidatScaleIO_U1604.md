@@ -232,7 +232,7 @@
 	```
 
   - Tạo type scaleio
-  
+
 	```sh
 	cinder type-create scaleio
 	cinder type-key scaleio set volume_backend_name=scaleio
