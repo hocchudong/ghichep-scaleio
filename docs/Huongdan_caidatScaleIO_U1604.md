@@ -135,8 +135,7 @@
 
 ### Trên host OpenStack controller và compute
   - Cài đặt ScaleIO SDC, sử dụng file "EMC-ScaleIO-sdc-2.0-14000.231.Ubuntu.16.04.x86_64.tar" đã download
-  
-  ```sh
+	```sh
 	tar -xvf EMC-ScaleIO-sdc-2.0-14000.231.Ubuntu.16.04.x86_64.tar
 	./siob_extract EMC-ScaleIO-sdc-2.0-14000.231.Ubuntu.16.04.x86_64.siob
 	```
@@ -227,7 +226,7 @@
 	san_password = Sube-1988
 	```
 
-	- Tạo type scaleio
+  - Tạo type scaleio
 	```sh
 	cinder type-create scaleio
 	cinder type-key scaleio set volume_backend_name=scaleio
