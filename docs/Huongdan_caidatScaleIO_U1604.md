@@ -153,11 +153,11 @@
 	```
 
   - Kiểm tra service scini
-  ```sh
+	```sh
 	systemctl status scini.service
 	```
 
-	Kết quả:
+  Kết quả:
 	```sh
 	● scini.service - LSB: This script is responsible to control the scini service.
 	   Loaded: loaded (/etc/init.d/scini; bad; vendor preset: enabled)
@@ -176,7 +176,7 @@
 	```
 
   - Lên trang ftp://ftp.emc.com để down bản scini phù hợp với linux-image của host
-  ```sh
+	```sh
 	wget ftp://QNzgdxXix:Aw3wFAwAq3@ftp.emc.com/Ubuntu/2.0.14000.231/4.4.0-104-generic/scini.tar
 	tar -xvf /root/scini.tar
 	./siob_extract /root/scini.siob
