@@ -34,20 +34,20 @@ Volume tạo ra trên ScaleIO dung lượng nhỏ nhất là 8GB, ko thay đổi
 
 
 ### Thực hiện trên tất cả các host
-	- Enable root login qua ssh
+  - Enable root login qua ssh
 	```sh
 	sudo passwd
 	sudo sed -i 's/prohibit-password/yes/' /etc/ssh/sshd_config
 	sudo service ssh reload
 	```
 
-	- Cài đặt các dependency:
+  - Cài đặt các dependency:
 	```sh
 	apt-get install libaio1 -y
 	```
 
 ### Thực hiện trên host ScaleIO1
-	- Cài đặt Java 8 runtime
+  - Cài đặt Java 8 runtime
 	```sh
 	apt-get install openjdk-8-jre binutils -y
 	```
@@ -63,50 +63,50 @@ Volume tạo ra trên ScaleIO dung lượng nhỏ nhất là 8GB, ko thay đổi
 
 ![img](../images/1.jpg)
 
-	- Login vào bằng tk admin, password tạo ở trên, tiếp tục chọn "Get Started"
+  - Login vào bằng tk admin, password tạo ở trên, tiếp tục chọn "Get Started"
 
 ![img](../images/2.jpg)
 
-	- Lựa chọn "Browser", chọn tất cả các file trong thư mục "ScaleIO_2.0.1.4_UBUNTU_16.04_Download" và tiến hành Upload
+  - Lựa chọn "Browser", chọn tất cả các file trong thư mục "ScaleIO_2.0.1.4_UBUNTU_16.04_Download" và tiến hành Upload
 ![img](../images/3.jpg)
 
 ![img](../images/4.jpg)
 
 ![img](../images/5.jpg)
 
-	Kết quả:
+  Kết quả:
 ![img](../images/6.jpg)
 
-	- Ở bước Install, chọn cài đặt mô hình 3 node
-	![img](../images/7.jpg)
+  - Ở bước Install, chọn cài đặt mô hình 3 node
+![img](../images/7.jpg)
 
-	- Khai báo password của MDM, LIA, accept license, khai báo IP các host ScaleIO và password để ssh vào từng host
+  - Khai báo password của MDM, LIA, accept license, khai báo IP các host ScaleIO và password để ssh vào từng host
 	![img](../images/8.jpg)
 
 	- Lần lượt thực hiện từng bước cài đặt theo hướng dẫn
 	![img](../images/9.jpg)
 
-	![img](../images/10.jpg)
+![img](../images/10.jpg)
 
-	![img](../images/11.jpg)
+![img](../images/11.jpg)
 
-	Kết quả:
-	![img](../images/12.jpg)
+  Kết quả:
+![img](../images/12.jpg)
 
 ### Để quản trị ScaleIO cluster, ScaleIO cung cấp công cụ là ScaleIO GUI, hỗ trợ Windows. Máy Windows này cần kết nối được tới IP quản trị của ScaleIO (172.16.68.80)
-	- Cài đặt Java Runtime 1.8
-	![img](../images/13.jpg)
+  - Cài đặt Java Runtime 1.8
+![img](../images/13.jpg)
 
-	- Cài đặt GUI package
-	![img](../images/14.jpg)
+  - Cài đặt GUI package
+![img](../images/14.jpg)
 
-	- Sau khi cài đặt xong, chạy ứng dụng và khai báo IP quản trị của ScaleIO cluster
-	![img](../images/15.jpg)
+  - Sau khi cài đặt xong, chạy ứng dụng và khai báo IP quản trị của ScaleIO cluster
+![img](../images/15.jpg)
 
-	![img](../images/16.jpg)
+![img](../images/16.jpg)
 
-	Giao diện trạng thái của Cluster
-	![img](../images/17.jpg)
+  Giao diện trạng thái của Cluster
+![img](../images/17.jpg)
 
 # Cấu hình OpenStack
 Trên controller và compute
