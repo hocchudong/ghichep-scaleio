@@ -153,11 +153,13 @@
 	```
 
   - Kiểm tra service scini
+
 	```sh
 	systemctl status scini.service
 	```
 
   Kết quả:
+
 	```sh
 	● scini.service - LSB: This script is responsible to control the scini service.
 	   Loaded: loaded (/etc/init.d/scini; bad; vendor preset: enabled)
@@ -176,15 +178,17 @@
 	```
 
   - Lên trang ftp://ftp.emc.com để down bản scini phù hợp với linux-image của host
+
 	```sh
 	wget ftp://QNzgdxXix:Aw3wFAwAq3@ftp.emc.com/Ubuntu/2.0.14000.231/4.4.0-104-generic/scini.tar
 	tar -xvf /root/scini.tar
 	./siob_extract /root/scini.siob
 	mv /root/scini.ko /bin/emc/scaleio
 	chmod 777 /bin/emc/scaleio/scini.ko
-  ```
+	```
 
   - Khởi động lại scini service
+
 	```sh
 	systemctl restart scini.service
 	systemctl status scini.service
@@ -205,13 +209,14 @@
 	Dec 25 18:27:07 compute1 systemd[1]: Started LSB: This script is responsible to control the scini service..
 	```
 
-	- Kiểm tra trên EMC GUI
+  - Kiểm tra trên EMC GUI
 
 ![img](../images/24.jpg)	
 
 ### Cấu hình cinder-volume trên host Controller
 
   - Sửa file /etc/cinder/cinder.conf
+
   ```sh
   [DEFAULT]
 	enabled_backends = scaleio
@@ -227,6 +232,7 @@
 	```
 
   - Tạo type scaleio
+  
 	```sh
 	cinder type-create scaleio
 	cinder type-key scaleio set volume_backend_name=scaleio
